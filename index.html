@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happiest Birthday My Love</title>
+<link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<style>
+/* RESET */
+html, body { margin:0; padding:0; overflow-x:hidden; font-family:'Pacifico', cursive; }
+
+/* BODY BACKGROUND */
+body {
+  background-image: url("bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #000;
+}
+body::before {
+  content:""; position:fixed; inset:0;
+  background: rgba(0,0,0,0.4); z-index:-2;
+}
+
+/* HEARTS */
+.hearts span{
+  position:fixed; bottom:-20px; font-size:20px; animation:float 6s linear infinite;
+}
+.hearts span:nth-child(1){ left:10%; animation-delay:0s; }
+.hearts span:nth-child(2){ left:30%; animation-delay:2s; }
+.hearts span:nth-child(3){ left:50%; animation-delay:4s; }
+.hearts span:nth-child(4){ left:70%; animation-delay:1s; }
+.hearts span:nth-child(5){ left:90%; animation-delay:3s; }
+@keyframes float{0%{transform:translateY(0);opacity:1;}100%{transform:translateY(-100vh);opacity:0;}}
+
+/* BALLOONS */
+.balloon{
+  position:fixed; bottom:-150px; width:60px; height:80px;
+  background:radial-gradient(circle at 30% 30%, #fff, #ff87c1);
+  border-radius:50%; animation:floatUp 12s linear infinite; opacity:0.6; z-index:-1;
+}
+.balloon::after{
+  content:""; position:absolute; bottom:-40px; left:50%; width:2px; height:40px; background:white;
+}
+@keyframes floatUp{from{transform:translateY(0);}to{transform:translateY(-120vh);}}
+
+/* HEADER */
+header{
+  min-height:100vh; display:flex; flex-direction:column;
+  justify-content:center; align-items:center; position:relative; text-align:center;
+}
+header::after{
+  content:""; position:absolute; width:400px; height:400px;
+  background:radial-gradient(circle, rgba(255,105,180,0.4), transparent 70%);
+  z-index:-1;
+}
+h1 { font-size:2.5rem; margin-bottom:12px; }
+
+/* CAKE */
+.cake{position:relative; width:220px; height:200px; margin:40px 0 5px; display:none;}
+.layer.bottom{position:absolute; bottom:0; width:220px; height:80px; background:#4b2e2e; border-radius:15px;}
+.layer.top{position:absolute; bottom:80px; left:20px; width:180px; height:70px; background:#fff3d1; border-radius:15px;}
+.candle{position:absolute; bottom:150px; width:10px; height:35px; background:white; border-radius:3px;}
+.c1{left:70px;} .c2{left:105px;} .c3{left:140px;}
+.candle::after{content:""; position:absolute; top:-15px; left:2px; width:6px; height:12px; background:orange; border-radius:50%; opacity:0; transition:0.3s;}
+.flame-on::after{opacity:1; box-shadow:0 0 10px yellow,0 0 20px orange,0 0 30px red;}
+
+/* BIG BOX SECTION */
+.big-section{padding:30px 20px; display:grid; grid-template-columns:1fr; gap:30px; justify-items:center;}
+.big-box{
+  width:100%; max-width:450px; padding:30px;
+  font-size:1.8em; border-radius:25px; background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.25);
+  box-shadow:0 15px 35px rgba(0,0,0,0.4); cursor:pointer; transition:0.3s;
+}
+.big-box:hover{transform:translateY(-5px); background:rgba(255,255,255,0.18);}
+
+/* POPUPS */
+.popup-overlay{position:fixed; inset:0; background:rgba(0,0,0,0.85); display:none; justify-content:center; align-items:center; z-index:9999;}
+.popup-overlay.show{display:flex;}
+.popup-box{
+  background: linear-gradient(135deg,#000,#1a1a1a); color:white; padding:20px 30px;
+  border-radius:25px; font-size:1.6em; text-align:center; box-shadow:0 0 20px rgba(255,105,180,0.4);
+}
+.letter-box{position:relative; background-image:url("heart.png"); background-size:cover; background-position:center;
+  padding:30px; border-radius:20px; width:90%; max-width:420px; max-height:80vh; overflow-y:auto; text-align:center;
+  font-family:'Dancing Script',cursive; color:#000; box-shadow:0 15px 40px rgba(0,0,0,0.4);}
+.close-btn{position:absolute; top:10px; right:15px; font-size:22px; cursor:pointer; color:black; font-weight:bold;}
+
+/* LOVE BUTTON & NOTIFICATION */
+.love-btn{margin-top:20px; padding:12px 20px; border:none; border-radius:25px;
+  background:#ff4d8d; color:white; font-size:16px; cursor:pointer; transition:0.3s;}
+.love-btn:hover{transform:scale(1.05); background:#ff2d75;}
+.notification{
+  opacity:0; margin-top:10px; text-align:center; background:#ff4d8d; color:white;
+  padding:10px 20px; border-radius:25px; font-size:1.2rem; transition: opacity 0.3s ease;
+}
+.notification.show{opacity:1;}
+
+/* SCROLL POPUP */
+#scrollPopup{display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85);
+  justify-content:center; align-items:center; z-index:9999; opacity:0; transition:opacity 0.8s;}
+#scrollPopup.show{display:flex; opacity:1;}
+
+/* MEDIA QUERIES FOR MOBILE */
+@media screen and (max-width:480px){
+  h1{font-size:2rem;}
+  .big-box{font-size:1.5em; padding:20px;}
+  .popup-box{font-size:1.4em; padding:15px 20px;}
+  .letter-box{padding:20px; font-size:1.2em;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts">
+  <span>❤️</span><span>💖</span><span>💗</span><span>💘</span><span>💕</span>
+</div>
+<div class="balloon" style="left:10%; animation-delay:0s;"></div>
+<div class="balloon" style="left:30%; animation-delay:3s;"></div>
+<div class="balloon" style="left:55%; animation-delay:6s;"></div>
+<div class="balloon" style="left:75%; animation-delay:2s;"></div>
+
+<header>
+  <h1>Happiest Birthday My Love ♡</h1>
+  <div class="cake">
+    <div class="layer bottom"></div>
+    <div class="layer top"></div>
+    <div class="candle c1"></div>
+    <div class="candle c2"></div>
+    <div class="candle c3"></div>
+  </div>
+</header>
+
+<section class="big-section">
+  <div class="big-box" onclick="openLetter()">💌 A Letter For My Baby</div>
+
+  <!-- Letter Popup -->
+  <div id="letterPopup" class="popup-overlay">
+    <div class="letter-box">
+      <span class="close-btn" onclick="closeLetter()">✖</span>
+      <h2>To my Adi ♡</h2>
+      <p id="loveText">
+        Happiest Birthday to the most amazing boy ever.<br><br>
+        You make my life brighter in ways I can't explain...
+        <br><br>
+        I still cherish those days... 2 months this month!
+        <br><br>
+        You make me feel the happiest girl in the universe.<br><br>
+        I love you endlessly ♡
+      </p>
+      <button class="love-btn" onclick="claimLove()">Click on me to claim that you love me too ♡</button>
+      <div id="loveNotification" class="notification">I knew it! You love me too ♡</div>
+    </div>
+  </div>
+
+  <div class="big-box" onclick="window.location.href='gift.html'">🎁 Gift For You!</div>
+  <div class="big-box" onclick="window.location.href='playlist.html'">🎧 Playlist for you!</div>
+  <div class="big-box" onclick="window.location.href='quiz.html'">🎮 Let's Play A Quiz!</div>
+</section>
+
+<div id="candlePopup" class="popup-overlay">
+  <div class="popup-box">
+    💖 Let's light up the candles! 💖<br>
+    <button id="startLighting">Let's Go! 🔥</button>
+  </div>
+</div>
+
+<div id="scrollPopup" class="popup-overlay">
+  <div class="popup-box">♡ scroll down my love ♡</div>
+</div>
+
+<div id="lighter"></div>
+
+<script>
+// References
+const startBtn = document.getElementById("startLighting");
+const popup = document.getElementById("candlePopup");
+const lighter = document.getElementById("lighter");
+const candles = document.querySelectorAll(".candle");
+const cake = document.querySelector(".cake");
+
+// Firecrackers
+function fireCrackers(){
+  const colors=["#ff4d8d","#ff87c1","#ffd700","#ffffff","#ff4500","#1e90ff"];
+  for(let i=0;i<150;i++){
+    const confetti=document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left=Math.random()*window.innerWidth+"px";
+    confetti.style.top=Math.random()*window.innerHeight+"px";
+    confetti.style.width=Math.random()*8+5+"px";
+    confetti.style.height=Math.random()*12+8+"px";
+    confetti.style.background=colors[Math.floor(Math.random()*colors.length)];
+    confetti.style.animationDuration=(Math.random()*2+2)+"s";
+    confetti.style.zIndex=9999;
+    document.body.appendChild(confetti);
+    setTimeout(()=>confetti.remove(),5000);
+  }
+}
+
+// Candle lighting
+startBtn.onclick=function(){
+  if(!cake) return;
+  popup.style.display="none";
+  lighter.style.display="block";
+  let index=0;
+  function lightNext(){
+    if(index>=candles.length){ lighter.style.display="none"; fireCrackers(); return; }
+    const candle=candles[index];
+    const rect=candle.getBoundingClientRect();
+    lighter.style.left=rect.left+"px";
+    lighter.style.top=rect.top-40+"px";
+    setTimeout(()=>{
+      candle.classList.add("flame-on");
+      index++;
+      setTimeout(lightNext,500);
+    },500);
+  }
+  lightNext();
+};
+
+// Scroll popup
+const scrollPopup=document.getElementById("scrollPopup");
+window.addEventListener("load",()=>{setTimeout(()=>{scrollPopup.classList.add("show");},2000);});
+scrollPopup.addEventListener("click",()=>{scrollPopup.classList.remove("show");});
+
+// Letter popup
+const letterPopup=document.getElementById("letterPopup");
+const loveText=document.getElementById("loveText");
+function openLetter(){letterPopup.classList.add("show");setTimeout(()=>{loveText.style.opacity=1;},500);}
+function closeLetter(){letterPopup.classList.remove("show");loveText.style.opacity=0;}
+
+// Claim love
+function claimLove(){document.getElementById("loveNotification").classList.add("show");setTimeout(()=>{document.getElementById("loveNotification").classList.remove("show");},2000);}
+</script>
+
+</body>
+</html>
