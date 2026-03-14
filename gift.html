@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday Surprise 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Crimson Text', serif;
+  background:url("gift.png") center/cover no-repeat;
+  min-height:100vh;
+  overflow-x:hidden;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  padding-top:20px;
+}
+
+/* HEADER */
+#headerText{
+  font-size:2rem;
+  color:black;
+  text-transform:uppercase;
+  margin:20px 0;
+  text-align:center;
+}
+
+/* ENVELOPE GRID */
+#envelopeContainer{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  gap:20px;
+  max-width:480px;
+  justify-items:center;
+  margin-bottom:20px;
+  width:90%;
+  padding:0 10px;
+}
+
+/* ENVELOPE */
+.envelope{
+  width:100%;
+  max-width:210px;
+  height:85px;
+  background:#ffe4e1;
+  border:2px solid #ffb6c1;
+  border-radius:12px;
+  cursor:pointer;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  box-shadow:0 5px 15px rgba(0,0,0,0.25);
+  transition:transform .3s;
+  font-size:1.3rem;
+  overflow:hidden;
+}
+
+.envelope.open{
+  background:#fff3d1;
+  transform:scale(1.05);
+}
+
+/* emoji */
+.emoji{
+  position:absolute;
+  font-size:1.5rem;
+}
+
+/* message */
+.message{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:85%;
+  text-align:center;
+  color:#ff1493;
+  font-size:0.9rem;
+  line-height:1.3;
+  opacity:0;
+  transition:opacity .3s ease;
+}
+
+/* PINK CONFETTI HEARTS */
+.confetti{
+  position:fixed;
+  color:#ff8eb6;
+  font-size:16px;
+  animation:fall linear infinite;
+  pointer-events:none;
+  z-index:1;
+}
+
+@keyframes fall{
+  0%{transform:translateY(-10vh) rotate(0);opacity:1}
+  100%{transform:translateY(110vh) rotate(360deg);opacity:.6}
+}
+
+/* SOFT BLUE BACKGROUND HEARTS */
+.bg-heart{
+  position:fixed;
+  color:#9ecbff;
+  font-size:22px;
+  opacity:0.25;
+  animation:floatUp linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+@keyframes floatUp{
+  0%{transform:translateY(110vh)}
+  100%{transform:translateY(-20vh)}
+}
+
+/* NEXT BUTTON */
+#nextContainer{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin:10px 0 40px 0;
+}
+
+#nextButton{
+  padding:12px 30px;
+  font-family:'Crimson Text', serif;
+  font-size:1.2rem;
+  text-decoration:none;
+  color:white;
+  background:black;
+  border-radius:25px;
+  transition:0.3s;
+}
+
+#nextButton:hover{
+  transform:scale(1.05);
+  background:#222;
+}
+
+/* RESPONSIVE FONT */
+@media(max-width:480px){
+  #headerText{
+    font-size:1.5rem;
+  }
+  .envelope{
+    height:70px;
+    font-size:1rem;
+  }
+  .emoji{
+    font-size:1.2rem;
+  }
+  .message{
+    font-size:0.85rem;
+  }
+  #nextButton{
+    font-size:1rem;
+    padding:10px 25px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<p id="headerText">OPEN THEM!!!</p>
+
+<div id="envelopeContainer"></div>
+
+<div id="nextContainer">
+  <a href="playlist.html" id="nextButton">Next →</a>
+</div>
+
+<script>
+const messages=[
+"I love you more every day.","You make my heart smile.","Forever and always us.","You are my sunshine.","I can’t wait to hug you.","You’re my favorite hello.","Every moment with you is magic.","I love your smile.","You make life sweeter than chocolate.","Thank you for being with me.","I’m so proud of you.","You’re my everything.","I wanna hug you tightly and never let you go.","I'll always be your yapper.","You light up my life with love.","Thinking of you 24x7.","You’re my forever baby.","Love you to the moon and back.","You make me happy.","You’re my treasure box.","Can’t stop smiling when I'm with you.","You’re amazing af.","You’re my lucky star.","I adore you the most.","You complete me.","My heart is yours forever.","You’re my favorite person in this whole world.","You’re a gift to me.","I’m gonna make you say sorry for the rest of our life.","You are my kinder joy."
+];
+
+const container=document.getElementById("envelopeContainer");
+
+for(let i=0;i<30;i++){
+  const env=document.createElement("div");
+  env.className="envelope";
+  env.innerHTML = "<span class='emoji'>💌</span>";
+
+  const msg=document.createElement("div");
+  msg.className="message";
+  msg.textContent=messages[i];
+
+  env.appendChild(msg);
+
+  env.onclick = () => {
+    const emoji = env.querySelector(".emoji");
+    env.classList.add("open");
+    emoji.style.display = "none";
+    msg.style.opacity = 1;
+
+    setTimeout(() => {
+      msg.style.opacity = 0;
+      emoji.style.display = "block";
+      env.classList.remove("open");
+    },3000);
+  };
+  container.appendChild(env);
+}
+
+/* PINK CONFETTI HEARTS */
+function createConfetti(){
+  const heart=document.createElement("div");
+  heart.className="confetti";
+  heart.textContent="♡";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=4+Math.random()*4+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),8000);
+}
+setInterval(createConfetti,120);
+
+/* SOFT BLUE BACKGROUND HEARTS */
+function createBgHeart(){
+  const heart=document.createElement("div");
+  heart.className="bg-heart";
+  heart.textContent="♡";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=10+Math.random()*10+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),20000);
+}
+setInterval(createBgHeart,600);
+</script>
+
+</body>
+</html>

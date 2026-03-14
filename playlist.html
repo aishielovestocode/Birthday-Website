@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Birthday Playlist♡</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+
+<style>
+/* GENERAL STYLES */
+body {
+  margin: 0;
+  font-family: 'Allura', cursive;
+  text-align: center;
+  background: url("reason.png") center/cover no-repeat;
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+/* ANIMATIONS */
+@keyframes fadeBlur {
+  0% {opacity: 0; filter: blur(8px);}
+  100% {opacity: 1; filter: blur(0);}
+}
+
+@keyframes showNext{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+@keyframes showButton{
+  from{opacity:0; transform:translateY(20px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* TEXT ABOVE HEADLINE */
+#introText {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  color: black;
+  text-shadow: 1px 1px 2px #ffffffaa;
+  animation: fadeBlur 1s forwards;
+  animation-delay: 0s;
+  opacity: 0;
+  margin-bottom: 10px;
+}
+
+/* SECONDARY TEXT */
+.playlist-text {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  color: black;
+  margin-bottom: 20px;
+  animation: fadeBlur 1s forwards;
+  animation-delay: 2s;
+  opacity: 0;
+}
+
+/* HEADLINE */
+h1 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  margin-bottom: 30px;
+  text-shadow: 0 0 15px #ff1493;
+  animation: fadeBlur 1s forwards;
+  animation-delay: 4s;
+  opacity: 0;
+}
+
+/* CLICKABLE SPOTIFY LINK BOX */
+#playlistLink {
+  background: #ffb6c1;
+  color: black;
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  padding: 20px 40px;
+  border-radius: 25px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  margin-bottom: 30px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: fadeBlur 1s forwards;
+  animation-delay: 6s;
+  opacity: 0;
+}
+#playlistLink:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.4);
+}
+
+/* NEXT BUTTON */
+#nextContainer{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  margin:20px 0 40px 0;
+  opacity:0;
+  animation:showNext 1s ease forwards;
+  animation-delay:8s;
+}
+
+#nextButton{
+  padding:12px 35px;
+  font-family:'Crimson Text', serif;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  text-decoration:none;
+  color:white;
+  background:black;
+  border-radius:30px;
+  transition:0.3s;
+}
+
+#nextButton:hover{
+  transform:scale(1.08);
+  background:#222;
+}
+
+/* RESPONSIVE ADJUSTMENTS */
+@media(max-width:600px){
+  body {padding: 15px;}
+  #playlistLink {padding: 15px 25px; font-size: 1.5rem;}
+  #nextButton {padding: 10px 25px; font-size: 1.1rem;}
+  h1 {margin-bottom: 25px;}
+  #introText, .playlist-text {margin-bottom: 15px;}
+}
+</style>
+</head>
+<body>
+
+<p id="introText">I made this playlist for you. Every time I listen to these songs, I always remember us.</p>
+<p class="playlist-text">These songs are gonna be my forever favorite. I hope you love them too.💖</p>
+
+<h1>🎧 My Special Playlist for You ♡</h1>
+
+<a id="playlistLink" href="https://open.spotify.com/playlist/2Bn9Fgji7bklh0U6gMUITq" target="_blank">
+  Click Here to Open in Spotify 💖
+</a>
+
+<div id="nextContainer">
+  <a href="quiz.html" id="nextButton">Let's play a quiz!</a>
+</div>
+
+</body>
+</html>

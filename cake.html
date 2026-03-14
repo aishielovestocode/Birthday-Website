@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YAYAYYAYYYYY</title>
+<style>
+body{
+  background: url("cake2.png") no-repeat center center;
+  background-size: cover;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:cursive;
+  overflow:hidden;
+}
+
+/* CAKE */
+.cake {
+  position: relative;
+  width: 60vw;        /* responsive width */
+  max-width: 300px;   /* desktop limit */
+  aspect-ratio: 6/5;  /* maintain cake proportion */
+}
+
+/* BOTTOM LAYER */
+.layer.bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40%;        /* proportional to container height */
+  background: #4b2e2e;
+  border-radius: 20px;
+}
+
+/* TOP LAYER */
+.layer.top {
+  position: absolute;
+  bottom: 40%;
+  left: 20%;
+  width: 60%;
+  height: 35%;
+  background: #fff3d1;
+  border-radius: 20px;
+}
+
+/* CANDLES */
+.candle {
+  position: absolute;
+  bottom: 75%;
+  width: 4%;
+  height: 15%;
+  background: #FFC0CB;
+  border-radius: 3px;
+}
+
+.c1 { left: 30%; }
+.c2 { left: 45%; }
+.c3 { left: 60%; }
+
+.candle::after {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: 25%;
+  width: 50%;
+  height: 25%;
+  background: orange;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.flame-on::after {
+  opacity: 1;
+  box-shadow: 0 0 15px yellow, 0 0 30px orange, 0 0 50px darkorange;
+}
+
+/* CANDLES */
+.candle {
+  position: absolute;
+  bottom: 190px;
+  width: 12px;
+  height: 45px;
+  background:#FFC0CB;  /* Blue color */
+  border-radius: 3px;
+}
+.c1{left:90px;}
+.c2{left:140px;}
+.c3{left:190px;}
+.candle::after{
+  content:"";
+  position:absolute;
+  top:-18px;
+  left:3px;
+  width:6px;
+  height:12px;
+  background:orange;
+  border-radius:50%;
+  opacity:0;
+}
+.flame-on::after{
+  opacity:1;
+  box-shadow:0 0 15px yellow,0 0 30px orange,0 0 50px darkorange;
+}
+
+/* LIGHTER */
+#lighter{
+  position:absolute;
+  width:14px;
+  height:25px;
+  background:orange;
+  border-radius:50%;
+  box-shadow:0 0 15px yellow,0 0 30px orange,0 0 50px red;
+  display:none;
+  transition:0.8s ease;
+}
+/* GIFT BOX BELOW CAKE, CENTERED */
+#giftBox {
+  display: none;               /* initially hidden */
+  position: absolute;          /* relative to body flow */
+  left: 50%;                   /* center horizontally */
+  top: calc(50% + 180px);      /* adjust based on cake height */
+  transform: translateX(-50%);
+  background: black;
+  color: #fff3d1;
+  font-family: 'Pacifico', cursive;
+  font-size: 1.3rem;
+  padding: 15px 30px;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  text-align: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.confetti {
+  position: fixed;
+  top: -10px; /* start slightly above viewport */
+  width: 8px;
+  height: 14px;
+  background-color: red; /* will override with JS colors */
+  opacity: 0.9;
+  z-index: 1500; /* above cake but below popups if needed */
+  pointer-events: none;
+  border-radius: 2px;
+  animation-name: fallConfetti;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+}
+
+@keyframes fallConfetti {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Fade-in */
+#giftBox.show {
+  display: block;
+  opacity: 1;
+}
+.gift-box:hover {
+  transform: translateY(-5px);
+  background: #111;
+}
+
+/* FIREWORKS */
+.firework {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 1;
+  box-shadow: 0 0 20px #ffdd33, 0 0 40px #ffcc00, 0 0 60px #ffaa00; /* more glow */
+  animation: explode 1.5s ease-out forwards;
+}
+
+@keyframes explode {
+  0% { transform: scale(0) translate(0px, 0px); opacity:1; }
+  100% { transform: scale(1) translate(var(--x), var(--y)); opacity:0; }
+}
+
+/* HAPPY BIRTHDAY TEXT */
+h1 {
+  color: white;
+  text-shadow: 0 0 10px black;
+  margin-bottom: 20px;
+  /* responsive font size: min 1.5rem, preferred 5vw, max 2rem */
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  text-align: center;
+}
+
+/* BUTTON TO LIGHT CANDLES */
+.cake-btn{
+  display:inline-block;
+  background:black;
+  color:white;
+  padding:14px 28px;
+  font-size:1.1rem;
+  border-radius:16px;
+  font-family:'Pacifico',cursive;
+  cursor:pointer;
+  margin-top:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.5);
+  transition:0.25s;
+  text-align:center;
+}
+.cake-btn:hover{
+  transform:translateY(-4px);
+  background:#111;
+}
+/* Soft pink A4 paper */
+#a4Paper {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75vw;         /* slightly smaller than before */
+  max-width: 450px;    /* desktop max width reduced */
+  height: 65vh;        /* slightly shorter */
+  max-height: 550px;   /* desktop max height reduced */
+  background: #ffd6e8;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+  padding: 18px 22px;  /* slightly smaller padding */
+  overflow: auto;
+  font-family: 'Pacifico', cursive;
+  color: #333;
+  text-align: center;
+  opacity: 0;
+  z-index: 1000;
+  transition: opacity 0.5s ease;
+}
+
+#a4Paper.show {
+  display: block;
+  animation: fadeIn 0.6s ease forwards;
+}
+
+#a4Paper p {
+  line-height: 1.6;
+  margin-bottom: 0.8em;
+  font-size: 0.95rem;   /* slightly smaller text */
+}
+.claim-box {
+  margin-top: 20px;
+  background: #ffb6c1; /* soft pink */
+  padding: 12px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+  transition: 0.3s;
+}
+
+.claim-box:hover {
+  transform: translateY(-3px);
+  background: #ffa6c1;
+}
+
+/* Popup style */
+.love-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  background: #ffb6c1;
+  color: #fff;
+  font-family: 'Pacifico', cursive;
+  font-size: 1.5rem;
+  padding: 20px 40px;
+  border-radius: 16px;
+  text-align: center;
+  opacity: 0;
+  z-index: 2000;
+  pointer-events: none;
+  transition: all 0.5s ease;
+}
+
+.love-popup.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+</style>
+</head>
+<body>
+<h1>Prettiest cake for my prettiest boy</h1>
+
+<div class="cake">
+  <div class="layer bottom"></div>
+  <div class="layer top"></div>
+  <div class="candle c1"></div>
+  <div class="candle c2"></div>
+  <div class="candle c3"></div>
+</div>
+
+<!-- GIFT BOX BELOW CAKE -->
+<div id="giftBox" class="gift-box">
+  🎁 Open your last gift
+</div>
+
+<div id="lighter"></div>
+<div class="cake-btn" id="startLighting">Light Candles 🔥</div>
+<div id="a4Paper">
+  <h2>💌 Your Last Gift 💌</h2>
+  <p>Hey lol. It took me a lot of efforts to create this website lmao. You know adi, ise banate time jab errors aajate the, to me alankrita pe chilla deti thi hehehehe. But I genuinely hope you liked this one. This is your 19th and I genuinely wish the best for you. My baby is just one year away from being an adult but he'll forever be my 4th class vala Adi. This will forever be my favorite memory of us. I will never ever forget that even when we grow old lol. Happiest birthday to the person I'm gonna forever cherish. You're my prettiest boy and will always be. I wanna celebrate all the birthdays with you and hopefully I will. Thank you for making me feel safe. Thank you for never giving up on me and my different personalities. Thank you for believing in me. Thank you for staying with me in my worst times. Thank you for loving me unconditionally. Thank you for bearing my tantrums. Thank you for loving me.</p>
+  <p>I Love you forever❤️</p>
+  <p>~Aishie</p>
+  <div id="claimLove" class="claim-box">
+  💖 Click here to claim again that you love me 💖
+</div>
+
+<!-- Popup notification -->
+<div id="lovePopup" class="love-popup">
+  I love you too ❤️
+</div>
+</div>
+
+<script>
+
+const startBtn = document.getElementById("startLighting");
+const lighter = document.getElementById("lighter");
+const candles = document.querySelectorAll(".candle");
+const giftBox = document.getElementById("giftBox");
+const a4Paper = document.getElementById("a4Paper");
+const claimBtn = document.getElementById("claimLove"); // <-- fix id here
+const lovePopup = document.getElementById("lovePopup");
+
+// --- LIGHT CANDLES ---
+startBtn.onclick = function() {
+  startBtn.style.display = "none"; 
+  lighter.style.display = "block";
+
+  let index = 0;
+
+  function lightNext() {
+    if(index >= candles.length){
+      lighter.style.display = "none";
+      fireCrackers(); 
+      setTimeout(() => giftBox.classList.add("show"), 2000); 
+      return;
+    }
+
+    const candle = candles[index];
+    const rect = candle.getBoundingClientRect();
+    lighter.style.left = rect.left + "px";
+    lighter.style.top = rect.top - 40 + "px";
+
+    setTimeout(() => {
+      candle.classList.add("flame-on");
+      index++;
+      setTimeout(lightNext, 600);
+    }, 600);
+  }
+
+  lightNext();
+};
+
+// --- GOLDEN FIREWORKS ---
+function fireCrackers() {
+  const colors = ["#ffcc00","#ffdd33","#ffaa00","#ffbb33"];
+  const bursts = 15;
+  const particlesPerBurst = 80;
+
+  for (let i = 0; i < bursts; i++) {
+    setTimeout(() => {
+      const centerX = Math.random() * window.innerWidth;
+      const centerY = Math.random() * window.innerHeight * 0.5;
+
+      for (let j = 0; j < particlesPerBurst; j++) {
+        const particle = document.createElement("div");
+        particle.classList.add("firework");
+        particle.style.left = centerX + "px";
+        particle.style.top = centerY + "px";
+        particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 300 + 150;
+        const x = Math.cos(angle) * distance + "px";
+        const y = Math.sin(angle) * distance + "px";
+        particle.style.setProperty("--x", x);
+        particle.style.setProperty("--y", y);
+
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 1800);
+      }
+    }, i * 400);
+  }
+}
+
+// --- CONFETTI ---
+const confettiColors = ["#ff0","#f0f","#0ff","#fff"];
+function createConfetti() {
+  const confetti = document.createElement("div");
+  confetti.classList.add("firework");
+  confetti.style.left = Math.random() * window.innerWidth + "px";
+  confetti.style.top = "-10px";
+  confetti.style.width = confetti.style.height = (5 + Math.random()*5) + "px";
+  confetti.style.background = confettiColors[Math.floor(Math.random()*confettiColors.length)];
+  document.body.appendChild(confetti);
+
+  let posY = -10;
+  const fall = () => {
+    posY += 4 + Math.random()*4; 
+    confetti.style.top = posY + "px";
+    if(posY < window.innerHeight) requestAnimationFrame(fall);
+    else confetti.remove();
+  }
+  requestAnimationFrame(fall);
+}
+
+function runConfettiLoop() {
+  createConfetti();
+  setTimeout(runConfettiLoop, 100); 
+}
+runConfettiLoop();
+
+// --- GIFT BOX CLICK ---
+giftBox.addEventListener("click", () => {
+  a4Paper.classList.add("show");
+});
+
+// --- CLAIM BUTTON CLICK ---
+claimBtn.addEventListener("click", () => {
+  lovePopup.classList.add("show");
+  setTimeout(() => lovePopup.classList.remove("show"), 2000);
+});
+</script>
+
+</body>
+</html>
