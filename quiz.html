@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boyfriend Quiz ♡</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Pacifico', cursive;
+  background: url("pic.png") no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center; 
+  align-items: center;     
+  min-height: 100vh;
+  flex-direction: column;
+  padding: 15px;
+  overflow-x: hidden;
+}
+
+.quiz-container {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  z-index: 10;
+}
+
+/* Headings */
+h1, h2 {
+  margin: 0.5rem 0;
+  text-align: center;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+/* Options buttons */
+#quizOptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.option-btn {
+  width: 90%;
+  max-width: 400px;
+  min-height: 45px;
+  background-color: #ffd6e0;
+  border-radius: 12px;
+  border: none;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  cursor: pointer;
+}
+
+.option-btn.selected {
+  background-color: #ff1493;
+}
+
+/* Next Button */
+#nextContainer button {
+  width: 60%;
+  max-width: 250px;
+  background-color: #ff69b4;
+  border-radius: 12px;
+  border: none;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  cursor: pointer;
+  padding: 10px;
+  margin-top: 15px;
+}
+
+/* Envelope popup */
+#envelope {
+  opacity: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: clamp(200px, 70%, 250px);
+  height: clamp(150px, 30%, 180px);
+  background: #ffd6e0;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+#envelope.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+#envelope .flap {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  background: #ffb6c1;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  transform-origin: top;
+  transition: transform 0.6s ease;
+}
+
+#envelope.open .flap {
+  transform: rotateX(180deg);
+}
+
+/* Cute note inside envelope */
+#cuteNote {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 200px;
+  background-color: #ffe4e1;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Pacifico', cursive;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
+  padding: 10px;
+}
+
+#cuteNote.show {
+  opacity: 1;
+}
+
+#lovePopup {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: rgba(0,0,0,0.6);
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.4s ease;
+  z-index:100;
+}
+
+#lovePopup.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.loveBox {
+  background:#ffd6e0;
+  padding: clamp(20px,5vw,40px) clamp(30px,5vw,60px);
+  border-radius:20px;
+  font-family:'Dancing Script', cursive;
+  font-size: clamp(1.5rem,4vw,2rem);
+  color:#ff1493;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.4);
+  animation: popLove 0.6s ease;
+}
+
+@keyframes popLove {
+  0%{transform:scale(0.4);}
+  70%{transform:scale(1.1);}
+  100%{transform:scale(1);}
+}
+
+/* Stars background */
+#starContainer {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  z-index:0;
+  pointer-events:none;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: black;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fall {
+  0% { transform: translateY(-5vh); }
+  100% { transform: translateY(105vh); }
+}
+</style>
+</head>
+<body>
+
+<div id="starContainer"></div>
+
+<div class="quiz-container">
+ <h1 class="quiz-title">How well do we know each other?</h1>
+  <h2 id="quizQuestion"></h2>
+  <div id="quizOptions"></div>
+  <div id="nextContainer"></div>
+</div>
+
+<div id="envelope">
+  <div class="flap"></div>
+
+  <div id="cuteNote">
+    <div id="noteTitle">💌 Let's check your score 💌</div>
+    <div id="scoreText">You scored: 0</div>
+  </div>
+</div>
+
+<div id="lovePopup">
+  <div style="display:flex;flex-direction:column;align-items:center;gap:25px;">
+
+    <div class="loveBox">
+      im so proud of u💗<br>
+      iloveyouuuu my connieeee
+    </div>
+
+    <div onclick="goToCake()" style="
+background:black;
+color:white;
+padding:14px 24px;
+border-radius:15px;
+margin-top:20px;
+font-size:1.2em;
+display:inline-block;
+cursor:pointer;">
+🎂 Let's go to birthday cake
+</div>
+
+  </div>
+</div>
+
+  </div>
+</div>
+ 
+  <div id="cuteNote">
+  <div id="noteTitle">💌 Let's check your score 💌</div>
+  <div id="scoreText">You scored: 0</div>
+
+  <h1>Happy Birthday 🎂</h1>
+
+<div class="cake-btn">
+🎂 Let's go to birthday cake
+</div>
+
+<div id="resultText">Here is your result!</div>
+
+<script>
+
+
+const quiz = [
+  {question:"1. What do I say the most?",options:["Sorry","I hate you","I am mature","You are always right"],answer:1},
+  {question:"2. When did we become a couple?",options:["5 April","10 November","22 January","9 October"],answer:2},
+  {question:"3. What does Adi love to do?",options:["Spoiling me","Saying sorry","Disturbing me","ALL OF THE ABOVE"],answer:3},
+  {question:"4. What is my favorite abroad destination with you?",options:["New York City","Japan","Thailand","EVERY PLACE IS HEAVEN WITH YOU"],answer:3},
+  {question:"5. What is common between us?",options:["Patience","Diet Coke","Understanding","Maturity"],answer:1},
+  {question:"6. On a scale of 1-10, how much does Adi miss me right now?",options:["2","6","8","Infinite"],answer:3},
+  {question:"7. What is Adi's nickname on my phone?",options:["Mi Conrad <3","Adityaaaa","Bf","Adi"],answer:0},
+  {question:"8. What can Adi do to cheer me up?",options:["Kisses","Chocoberry","Pizza","OBVIOUSLY EVERYTHING"],answer:3},
+  {question:"9. Till when am I gonna love you, my Conrad?",options:["2 years","Till there are infinite worlds","One year","2 days"],answer:1},
+  {question:"10. What happens if you answer all questions correctly?",options:["Get a hug","Get a membership of unlimited kisses","ALLLLLLL"],answer:2}
+];
+let score = 0;
+let selectedAnswer = null;
+let currentQuestion = 0;
+const questionEl = document.getElementById("quizQuestion");
+const optionsEl = document.getElementById("quizOptions");
+const nextContainer = document.getElementById("nextContainer");
+const envelope = document.getElementById("envelope");
+
+// Show a question with fade-in
+function showQuestion() {
+  nextContainer.innerHTML = "";
+  const q = quiz[currentQuestion];
+
+  questionEl.style.transition = "none";
+  questionEl.style.opacity = 0;
+  questionEl.style.filter = "blur(8px)";
+  questionEl.textContent = q.question;
+  requestAnimationFrame(() => {
+    questionEl.style.transition = "opacity 0.9s ease, filter 0.9s ease";
+    questionEl.style.opacity = 1;
+    questionEl.style.filter = "blur(0)";
+  });
+
+  optionsEl.innerHTML = "";
+  q.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt;
+    btn.className = "option-btn";
+    btn.addEventListener("click", () => {
+
+  Array.from(optionsEl.children).forEach(b => b.classList.remove("selected"));
+
+  btn.classList.add("selected");
+
+  selectedAnswer = q.options.indexOf(opt);  // store choice
+
+  if(!document.getElementById("nextBtn")) showNextButton();
+});
+    optionsEl.appendChild(btn);
+  });
+
+  optionsEl.style.transition = "none";
+  optionsEl.style.opacity = 0;
+  optionsEl.style.filter = "blur(8px)";
+  requestAnimationFrame(() => {
+    optionsEl.style.transition = "opacity 0.9s ease, filter 0.9s ease";
+    optionsEl.style.opacity = 1;
+    optionsEl.style.filter = "blur(0)";
+  });
+}
+
+// Show next button
+function showNextButton() {
+  const nextBtn = document.createElement("button");
+  nextBtn.id = "nextBtn";
+  nextBtn.textContent = "Next Question ➤";
+  nextContainer.appendChild(nextBtn);
+
+  nextBtn.addEventListener("click", () => {
+
+  if(selectedAnswer === quiz[currentQuestion].answer){
+    score++;
+  }
+
+  selectedAnswer = null; // reset for next question
+  currentQuestion++;
+
+  if(currentQuestion < quiz.length){
+    showQuestion();
+  } 
+  else {
+
+    document.querySelector('h1').style.display = 'none';
+    questionEl.textContent = "";
+    optionsEl.innerHTML = "";
+    nextContainer.innerHTML = "";
+
+    envelope.classList.add('show');
+
+    const scoreBox = document.getElementById("scoreText");
+const title = document.getElementById("noteTitle");
+
+scoreBox.innerText = "You scored: " + score + " / " + quiz.length;
+
+scoreBox.style.display = "block";
+title.style.display = "block";
+
+  }
+});
+}
+envelope.addEventListener('click', () => {
+
+  envelope.classList.add('open');
+
+  const note = document.getElementById('cuteNote');
+
+  setTimeout(()=>{
+    note.classList.add('show');
+  },200);
+
+  setTimeout(()=>{
+    document.getElementById('lovePopup').classList.add('show');
+  },2000);  // 2 second delay
+
+});
+
+
+// Continuous stars
+const starContainer = document.getElementById("starContainer");
+function createStar() {
+  const star = document.createElement("div");
+  star.classList.add("star");
+  star.style.left = Math.random() * 100 + "vw";
+  const size = 1 + Math.random() * 3;
+  star.style.width = star.style.height = size + "px";
+  star.style.animationDuration = 5 + Math.random() * 5 + "s";
+  starContainer.appendChild(star);
+  setTimeout(() => star.remove(), parseFloat(star.style.animationDuration) * 1000);
+}
+setInterval(createStar, 100);
+
+// Start quiz
+showQuestion();
+function goToCake(){
+  window.location.href = "cake.html";
+}
+</script>
+
+</body>
+</html>
