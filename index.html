@@ -200,18 +200,26 @@ border-radius:15px;
 /* CANDLES */
 
 .candle{
-position:absolute;
-bottom:60px;
+position:relative;
+margin:auto;
+top:-35px;
 width:10px;
-height:35px;
+height:40px;
 background:white;
-border-radius:3px;
+border-radius:5px;
 }
 
-.c1{left:70px;}
-.c2{left:105px;}
-.c3{left:140px;}
+.candle:nth-child(1){
+left:35%;
+}
 
+.candle:nth-child(2){
+left:50%;
+}
+
+.candle:nth-child(3){
+left:65%;
+}
 .candle::after{
 content:"";
 position:absolute;
