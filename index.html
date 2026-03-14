@@ -199,26 +199,26 @@ border-radius:15px;
 
 /* CANDLES */
 
-.candle{
+.cake-container{
 position:relative;
-margin:auto;
-top:-35px;
+width:220px;
+margin:60px auto;
+}
+
+.candles{
+position:absolute;
+top:-40px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:20px;
+}
+
+.candle{
 width:10px;
 height:40px;
-background:white;
+background:pink;
 border-radius:5px;
-}
-
-.candle:nth-child(1){
-left:35%;
-}
-
-.candle:nth-child(2){
-left:50%;
-}
-
-.candle:nth-child(3){
-left:65%;
 }
 .candle::after{
 content:"";
@@ -496,9 +496,7 @@ margin-top:80px;
 transform:scale(0.9);
 }
 
-.candle{
-bottom:145px;
-}
+
 
 }
 @media (max-width:600px){
@@ -510,6 +508,18 @@ width:200px;
 .layer.top{
 width:160px;
 left:20px;
+}
+
+}
+@media (max-width:600px){
+
+.cake-container{
+transform:scale(0.9);
+}
+
+.candles{
+gap:15px;
+top:-35px;
 }
 
 }
@@ -535,18 +545,20 @@ left:20px;
   
   <h1>Happiest Birthday My Love♡</h1>
 
-  <!-- Cake container -->
+  <div class="cake-container">
+
+  <div class="candles">
+    <div class="candle"></div>
+    <div class="candle"></div>
+    <div class="candle"></div>
+  </div>
+
   <div class="cake">
     <div class="layer bottom"></div>
     <div class="layer top"></div>
+  </div>
 
-    <!-- Candles -->
-    <div class="candle c1"></div>
-    <div class="candle c2"></div>
-    <div class="candle c3"></div>
-
-    <!-- Slice (hidden initially) -->
-    
+</div>
   
 </header>
 <section class="big-section">
