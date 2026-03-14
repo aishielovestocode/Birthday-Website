@@ -25,7 +25,8 @@ background-position:center;
 background-size:cover;
 background-color:#000;
 min-height:100vh;
-}
+
+animation: pageFade 1.8s ease;}
 
 body::before{
 content:"";
@@ -69,7 +70,14 @@ animation:floatUp 12s linear infinite;
 opacity:0.6;
 z-index:-1;
 }
-
+@keyframes pageFade {
+  from{
+    opacity:0;
+  }
+  to{
+    opacity:1;
+  }
+}
 .balloon::after{
 content:"";
 position:absolute;

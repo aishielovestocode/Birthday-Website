@@ -19,8 +19,16 @@ body{
   align-items:center;
   justify-content:flex-start;
   padding-top:20px;
+  animation: pageFade 1.8s ease;
 }
-
+@keyframes pageFade {
+  from{
+    opacity:0;
+  }
+  to{
+    opacity:1;
+  }
+}
 /* HEADER */
 #headerText{
   font-size:2rem;
