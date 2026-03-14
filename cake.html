@@ -382,8 +382,8 @@ startBtn.onclick = function() {
 // --- GOLDEN FIREWORKS ---
 function fireCrackers() {
   const colors = ["#ffcc00","#ffdd33","#ffaa00","#ffbb33"];
-  const bursts = 15;
-  const particlesPerBurst = 80;
+  const bursts = 10;
+  const particlesPerBurst = 35;
 
   for (let i = 0; i < bursts; i++) {
     setTimeout(() => {
@@ -432,9 +432,14 @@ function createConfetti() {
   requestAnimationFrame(fall);
 }
 
+let confettiCount = 0;
+const maxConfetti = 120;
+
 function runConfettiLoop() {
+  if(confettiCount > maxConfetti) return;
   createConfetti();
-  setTimeout(runConfettiLoop, 100); 
+  confettiCount++;
+  setTimeout(runConfettiLoop, 150);
 }
 runConfettiLoop();
 
