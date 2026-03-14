@@ -17,28 +17,23 @@ padding:0;
 overflow-x:hidden;
 }
 
-/* BODY */
 
-body {
-  background-image: url("bg.png"); /* replace with your image */
-  background-repeat: no-repeat;
-  background-position: center center;   /* keeps it centered */
-  background-size: 100%;             /* fits whole image without cropping */
-  background-attachment: fixed;         /* optional: keeps background fixed on scroll */
-  background-color: #000;               /* fallback if image doesn't load */
+  body{
+background-image:url("bg.png");
+background-repeat:no-repeat;
+background-position:center;
+background-size:cover;
+background-attachment:fixed;
+background-color:#000;
 }
-@media (max-width: 768px) {
-  body {
-    background-size: cover;
-    background-position: top center;
-    background-attachment: scroll;
-  }
+
 body::before{
 content:"";
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.4);
-z-index:-2;
+background:rgba(0,0,0,0.05);
+z-index:-1;
+pointer-events:none;
 }
 
 /* HEARTS */
@@ -108,7 +103,7 @@ to{transform:translateY(-120vh);}
 /* HEADER */
 
 header{
-min-height:100vh;
+min-height:80vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -143,10 +138,10 @@ z-index:-1;
 }
 
 h1 {
-  margin: 0;              /* remove default margins */
-  margin-bottom: 12px;    /* small gap below text */
-  font-size: 2.5rem;      /* adjust size if needed */
-  text-align: center;     /* center the text */
+  margin: 0;
+  margin-bottom: 12px;
+  font-size:clamp(28px,6vw,60px);  
+  text-align: center;
 }
 
 /* CAKE */
@@ -236,36 +231,66 @@ box-shadow:0 0 10px yellow,0 0 20px orange,0 0 30px red;
 
 /* BIG BOX SECTION */
 
+
+
+/* Desktop: two or three columns */
+@media (min-width:768px){
+.big-section{
+grid-template-columns:repeat(2,1fr);
+gap:40px;
+max-width:900px;
+margin:auto;
+}
+}
+
+
 .big-section{
 padding:40px 20px;
 display:grid;
 grid-template-columns:1fr;
-gap:40px;
+gap:50px;
 justify-items:center;
 }
-
 .big-box{
-width:100%;
-max-width:450px;
-padding:45px;
-font-size:2em;
-border-radius:25px;
-font-family:'Pacifico',cursive;
-background:rgba(255,255,255,0.12);
+width:90%;
+max-width:400px;
+padding:25px;
+text-align:center;
+font-size:clamp(1.2em,2vw,2em);
+
+background:rgba(255,255,255,0.1);
 backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.25);
-box-shadow:0 15px 35px rgba(0,0,0,0.4);
-transition:0.3s;
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.2);
+
+box-shadow:0 8px 25px rgba(0,0,0,0.4);
+
 cursor:pointer;
+transition:0.3s;
 }
 
 .big-box:hover{
-transform:translateY(-8px);
-background:rgba(255,255,255,0.18);
+transform:translateY(-5px);
+background:rgba(255,255,255,0.15);
 }
 
 /* POPUPS */
+.popup{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
 
+.popup.show{
+display:flex;
+}
 .popup-overlay{
 position:fixed;
 inset:0;
@@ -333,20 +358,14 @@ to{transform:translateY(110vh) rotate(720deg);}
 from{opacity:0;transform:translateY(-20px);}
 to{opacity:1;transform:translateY(0);}
 }
-
-/* popup */
-.popup{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-justify-content:center;
-align-items:center;
-z-index:9999;
+.container{
+  width:90%;
+  max-width:800px;
+  margin:auto;
+  padding:20px;
 }
+/* popup */
+
 
 .popup.show{
 display:flex;
@@ -372,29 +391,16 @@ animation: popupFloat 1s ease;
 }
 
 .letter-box{
-position:relative;
-background-image:url("heart.png");
+width:90%;
+max-width:450px;
+padding:30px;
+
+background:url("heart.png");
 background-size:cover;
 background-position:center;
-padding:40px;
-border-radius:20px;
-width:420px;
-max-height:500px;
-overflow-y:auto;
-text-align:center;
-font-family:'Dancing Script',cursive;
-color:#000;
-box-shadow:0 15px 40px rgba(0,0,0,0.4);
-}
-@keyframes popupFloat{
-0%{
-opacity:0;
-transform:translateY(30px) scale(0.9);
-}
-100%{
-opacity:1;
-transform:translateY(0) scale(1);
-}
+
+border-radius:25px;
+box-shadow:0 15px 40px rgba(0,0,0,0.6);
 }
 .love-btn{
 margin-top:20px;
