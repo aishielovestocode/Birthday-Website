@@ -235,24 +235,50 @@ box-shadow:0 0 10px yellow,0 0 20px orange,0 0 30px red;
 
 
 /* Desktop: two or three columns */
-@media (min-width:768px){
 .big-section{
-grid-template-columns:repeat(2,1fr);
-gap:40px;
+padding:40px 20px;
+display:grid;
+grid-template-columns:1fr;
+gap:60px;
+justify-items:center;
+}
+
+@media (min-width:768px){
+
+.big-section{
+grid-template-columns:1fr;
+gap:60px;
 max-width:900px;
 margin:auto;
+justify-items:center;
 }
+
 }
 .big-box{
+width:90%;
+max-width:400px;
+padding:25px;
+text-align:center;
+font-size:clamp(1.2em,2vw,2em);
+
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+border-radius:20px;
+border:1px solid rgba(255,255,255,0.2);
+
+box-shadow:0 8px 25px rgba(0,0,0,0.4);
+
+cursor:pointer;
+transition:0.3s;
+
 opacity:0;
 transform:translateY(40px);
-transition:opacity 1.4s ease, transform 1.4s ease;}
+}
 
 .big-box.show{
 opacity:1;
 transform:translateY(0);
 }
-
 
 .big-box:hover{
 transform:translateY(-5px);
@@ -286,12 +312,14 @@ align-items:center;
 z-index:9999;
 }
 
-#scrollPopup .popup-box{
-padding:10px 20px;
-font-size:1.1em;
-border-radius:15px;
+.popup-box{
+background: linear-gradient(135deg,#000,#1a1a1a);
+color:white;
+padding:12px 25px;   /* smaller padding */
+border-radius:18px;
+font-size:1.1em;     /* smaller text */
+font-family:'Pacifico', cursive;
 }
-
 .popup-box button{
 margin-top:25px;
 font-size:0.7em;
@@ -350,24 +378,11 @@ to{opacity:1;transform:translateY(0);}
 .popup.show{
 display:flex;
 }
-.popup-box{
-background: linear-gradient(135deg,#000,#1a1a1a);
-color:white;
-padding:22px 45px;
-border-radius:25px;
-font-size:1.7em;
-font-family:'Pacifico', cursive;
-letter-spacing:1px;
-text-align:center;
-
-box-shadow:
-0 0 10px rgba(255,105,180,0.6),
-0 0 20px rgba(255,105,180,0.4),
-0 12px 35px rgba(0,0,0,0.6);
-
-border:1px solid rgba(255,255,255,0.15);
-
-animation: popupFloat 1s ease;
+#scrollPopup .popup-box{
+padding:8px 18px;      /* smaller box */
+font-size:1em;         /* smaller text */
+border-radius:14px;    /* slightly smaller corners */
+max-width:260px;       /* limit width */
 }
 
 .letter-box{
@@ -666,10 +681,20 @@ entry.target.classList.add("show");
 }
 });
 },{
-threshold:0.2
+threshold:0.1
 });
 
 boxes.forEach(box=>{
 observer.observe(box);
+});
+
+/* make sure first boxes appear if already visible */
+window.addEventListener("load", ()=>{
+boxes.forEach(box=>{
+const rect = box.getBoundingClientRect();
+if(rect.top < window.innerHeight){
+box.classList.add("show");
+}
+});
 });
 </script>
