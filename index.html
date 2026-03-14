@@ -536,24 +536,6 @@ top:-38px;
 <header>
   
   <h1>Happiest Birthday My Love♡</h1>
-
-  <div class="cake-container">
-
-  <div class="cake">
-
-    <div class="candles">
-      <div class="candle"></div>
-      <div class="candle"></div>
-      <div class="candle"></div>
-    </div>
-
-    <div class="layer bottom"></div>
-    <div class="layer top"></div>
-
-  </div>
-
-
-</div>
   
 </header>
 <section class="big-section">
@@ -603,13 +585,7 @@ top:-38px;
 
 </section>
 
-<div id="candlePopup" class="popup-overlay">
-<div class="popup-box">
-💖 Let's light up the candles! 💖
-<br>
-<button id="startLighting">Let's Go! 🔥</button>
-</div>
-</div>
+
 
 <div id="scrollPopup" class="popup-overlay">
 <div class="popup-box">
@@ -617,16 +593,11 @@ top:-38px;
 </div>
 </div>
 
-<div id="lighter"></div>
 
 
 <script>
 // References
-const startBtn = document.getElementById("startLighting");
-const popup = document.getElementById("candlePopup");
-const lighter = document.getElementById("lighter");
-const candles = document.querySelectorAll(".candle");
-const cake = document.querySelector(".cake");
+
 
 // Confetti/Firecracker function
 function fireCrackers() {
@@ -648,35 +619,7 @@ function fireCrackers() {
 }
 
 // Candle lighting sequence
-startBtn.onclick = function() {
-  if(!cake) return;
-  popup.style.display = "none";
-  lighter.style.display = "block";
 
-  let index = 0;
-
-  function lightNext() {
-    if(index >= candles.length){
-      lighter.style.display = "none";
-      // Firecrackers explode when last candle is lit
-      fireCrackers();
-      return;
-    }
-
-    const candle = candles[index];
-    const rect = candle.getBoundingClientRect();
-   lighter.style.left = rect.left + window.scrollX + "px";
-lighter.style.top = rect.top + window.scrollY - 40 + "px";
-
-    setTimeout(() => {
-      candle.classList.add("flame-on");
-      index++;
-      setTimeout(lightNext, 500);
-    }, 500);
-  }
-
-  lightNext();
-};
 // Scroll notification popup
 // Scroll notification popup
 const scrollPopup = document.getElementById("scrollPopup");
