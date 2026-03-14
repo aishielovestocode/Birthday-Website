@@ -14,7 +14,7 @@ body{
   align-items:center;
   height:100vh;
   font-family:cursive;
-  overflow:hidden;
+  overflow-x:hidden;
 }
 
 /* CAKE */
@@ -282,6 +282,7 @@ h1 {
   <div class="candle c1"></div>
   <div class="candle c2"></div>
   <div class="candle c3"></div>
+  <div id="lighter"></div>
 </div>
 
 <!-- GIFT BOX BELOW CAKE -->
@@ -289,7 +290,6 @@ h1 {
   🎁 Open your last gift
 </div>
 
-<div id="lighter"></div>
 <div class="cake-btn" id="startLighting">Light Candles 🔥</div>
 <div id="a4Paper">
   <h2>💌 Your Last Gift 💌</h2>
@@ -324,6 +324,7 @@ startBtn.onclick = function() {
   let index = 0;
 
   function lightNext() {
+
     if(index >= candles.length){
       lighter.style.display = "none";
       fireCrackers(); 
@@ -332,9 +333,9 @@ startBtn.onclick = function() {
     }
 
     const candle = candles[index];
-    const rect = candle.getBoundingClientRect();
-   lighter.style.left = rect.left + rect.width/2 - 7 + "px";
-lighter.style.top = rect.top - 35 + "px";
+
+    lighter.style.left = candle.offsetLeft + candle.offsetWidth/2 - 7 + "px";
+    lighter.style.top = candle.offsetTop - 35 + "px";
 
     setTimeout(() => {
       candle.classList.add("flame-on");
@@ -343,7 +344,7 @@ lighter.style.top = rect.top - 35 + "px";
     }, 600);
   }
 
-  lightNext();
+  lightNext();   // ⭐ ADD THIS LINE
 };
 
 // --- GOLDEN FIREWORKS ---
